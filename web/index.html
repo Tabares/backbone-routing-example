@@ -1,0 +1,58 @@
+<html>
+<head>
+  <title>Backbone
+  </title>
+  <!-- JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="js/lib/underscore-min.js"></script>
+  <script src="js/lib/backbone-min.js"></script>
+  <script src="js/lib/handlebars-v4.0.5.js"></script>
+
+</head>
+<body>
+  <script type="text/javascript">
+    var documents = [
+      new Backbone.Model({
+        title: 'Lorem Ipsum Hipster',
+        content: 'Cardigan ramps chartreuse williamsburg venmo quinoa. Vegan mlkshk forage, cray fanny pack letterpress quinoa gastropub before they sold out narwhal paleo. Chia fanny pack cornhole asymmetrical iPhone, bicycle rights selvage craft beer bitters PBR&B. Fingerstache venmo chambray next level blue bottle, literally poutine neutra forage fixie drinking vinegar vinyl. Hoodie ethical bespoke 8-bit, williamsburg art party aesthetic helvetica keytar. Godard scenester waistcoat, put a bird on it tilde vinyl schlitz XOXO blog hammock. Kale chips fashion axe DIY food truck, sartorial letterpress chartreuse crucifix tumblr salvia quinoa narwhal kickstarter 3 wolf moon.'
+      }),
+      new Backbone.Model({
+        title: 'Lorem Ipsum',
+        content: 'orem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis lectus non egestas eleifend. Aliquam vehicula convallis erat id tincidunt. Sed consequat quam posuere pulvinar pellentesque. Vestibulum volutpat justo et ultrices congue. Sed non nulla at enim convallis dignissim vitae et augue. Integer ac ultrices erat. Aenean efficitur sapien nec aliquam pellentesque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam commodo varius massa.'
+      }),
+    ];
+
+    var ContentsView = Backbone.View.extend({
+      tagName: 'ul',
+      render: function(){
+        _(this.collection).each(function(document){
+          this.$el.append(new DocumentListView({model: document}).render().el);
+        }, this);
+        return this;
+      }
+    });
+
+    var DocumentListView = Backbone.View.extend({
+      tagName: 'li',
+      render: function(){
+        this.$el.html(this.model.get('title'));
+        return this;
+      }
+    });
+
+  var DocumentRouter = Backbone.Router.extend({
+    routes:{
+      'contents': 'contents'
+    },
+    contents: function(){
+      $('body').html(new ContentsView({collection: documents}).render().el);
+    }
+  });
+
+  var router = new DocumentRouter();
+  Backbone.history.start();
+  router.navigate('contents', {trigger:true});
+
+  </script>
+</body>
+</html>
